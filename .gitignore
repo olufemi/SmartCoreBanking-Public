@@ -1,0 +1,34 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Maven / Java build output
+**/target/
+*.class
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# Logs and dumps
+*.log
+*.out
+*.sql
+*.dump
+
+# Environment / secrets
+.env
+.env.*
+*.pem
+*.key
+*.p12
+
+# Office temp files
+~$*.docx
+~$*.xlsx
+~$*.pptx
+
+# Python cache
+**/__pycache__/
+*.pyc

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart-Core Admin Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <section class="login-shell" id="login-screen">
+      <div class="login-panel">
+        <div class="brand-block login-brand">
+          <div class="brand-mark">SC</div>
+          <div>
+            <p class="eyebrow">Smart-Core</p>
+            <h1>Admin Portal</h1>
+          </div>
+        </div>
+        <div class="login-copy">
+          <h2>Operations access for approvals, transactions, and platform control.</h2>
+          <p>
+            Use your backoffice operator email and portal password. The portal now reads through
+            the Smart-Core gateway portal APIs, so you only need the profiling gateway base URL.
+          </p>
+        </div>
+        <form class="login-form" id="login-form">
+          <label>
+            <span>Portal Base URL</span>
+            <input type="url" id="profiling-base-url" value="http://localhost:8080/api/profilings" required />
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" id="email" value="" required />
+          </label>
+          <label>
+            <span>Password</span>
+            <input type="password" id="password" value="" required />
+          </label>
+          <p class="login-hint">Use local demo credentials from your own environment. No live credentials are bundled.</p>
+          <button class="primary-btn login-btn" type="submit">Enter Portal</button>
+          <p class="login-error hidden" id="login-error"></p>
+        </form>
+      </div>
+    </section>
+
+    <div class="app-shell hidden" id="portal-shell">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <div class="brand-mark">SC</div>
+          <div>
+            <p class="eyebrow">Smart-Core</p>
+            <h1>Admin Portal</h1>
+          </div>
+        </div>
+
+        <nav class="nav-section" id="nav-section">
+          <button class="nav-item active" data-view="overview">Overview</button>
+          <button class="nav-item" data-view="transactions">Transactions</button>
+          <button class="nav-item" data-view="approvals">Approvals</button>
+          <button class="nav-item" data-view="clients">Clients</button>
+          <button class="nav-item" data-view="operators">Operators</button>
+          <button class="nav-item" data-view="roles">Roles</button>
+          <button class="nav-item" data-view="reversals">Reversals</button>
+          <button class="nav-item" data-view="health">Health</button>
+        </nav>
+
+        <div class="sidebar-card session-card">
+          <p class="sidebar-label">Signed In</p>
+          <strong id="session-user">Community Demo Admin</strong>
+          <span id="session-role">Ops Command</span>
+          <div class="scope-pills">
+            <span class="status-pill success" id="scope-pill">Internal</span>
+            <span class="status-pill" id="product-pill">ALL</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" id="topbar-eyebrow">Operations Command</p>
+            <h2 id="view-title">Transaction Command Center</h2>
+          </div>
+          <div class="topbar-actions">
+            <button class="ghost-btn" id="export-btn">Export</button>
+            <button class="primary-btn" id="action-btn">New Review</button>
+          </div>
+        </header>
+
+        <section class="status-banner hidden" id="status-banner"></section>
+
+        <header class="topbar topbar-secondary">
+          <div>
+            <p class="eyebrow">Session Context</p>
+            <h2 id="context-title">Connected Smart-Core Services</h2>
+          </div>
+          <div class="topbar-actions">
+            <button class="ghost-btn small" id="refresh-data-btn">Refresh Data</button>
+            <button class="ghost-btn small" id="logout-btn">Logout</button>
+          </div>
+        </header>
+
+        <section class="filter-bar" id="global-filters">
+          <div class="segmented-control" id="time-filter">
+            <button class="segment" data-window="30m">30m</button>
+            <button class="segment" data-window="1h">1h</button>
+            <button class="segment active" data-window="24h">24h</button>
+            <button class="segment" data-window="7d">7d</button>
+            <button class="segment" data-window="custom">Custom</button>
+          </div>
+          <div class="filter-grid">
+            <select id="header-product-filter">
+              <option value="ALL">All Products</option>
+            </select>
+            <select id="header-status-filter">
+              <option value="ALL">All Status</option>
+              <option value="Successful">Successful</option>
+              <option value="Pending">Pending</option>
+              <option value="Failed">Failed</option>
+              <option value="Reversed">Reversed</option>
+            </select>
+            <select id="header-type-filter">
+              <option value="ALL">All Types</option>
+              <option value="Credit">Credit</option>
+              <option value="Debit">Debit</option>
+              <option value="Settlement">Settlement</option>
+              <option value="Batch Post">Batch Post</option>
+            </select>
+            <input id="header-search" type="search" placeholder="Search transaction ref, account, productCode" />
+          </div>
+        </section>
+
+        <section class="view active" id="view-overview">
+          <section class="kpi-grid" id="kpi-grid"></section>
+
+          <section class="content-grid">
+            <article class="panel panel-large">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Flow Trend</p>
+                  <h3>Inflow vs Outflow</h3>
+                </div>
+                <span class="panel-chip">Live Snapshot</span>
+              </div>
+              <div class="chart-bars" id="flow-chart"></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Product Pressure</p>
+                  <h3>Top ProductCodes</h3>
+                </div>
+              </div>
+              <div class="mini-bars" id="product-chart"></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">System View</p>
+                  <h3>Health Snapshot</h3>
+                </div>
+              </div>
+              <ul class="health-list" id="health-list"></ul>
+            </article>
+          </section>
+
+          <section class="bottom-grid">
+            <article class="panel table-panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Latest Activity</p>
+                  <h3>Recent Transactions</h3>
+                </div>
+                <button class="ghost-btn small" data-switch-view="transactions">View All</button>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Reference</th>
+                      <th>Product</th>
+                      <th>Account</th>
+                      <th>Type</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Time</th>
+                    </tr>
+                  </thead>
+                  <tbody id="transaction-table"></tbody>
+                </table>
+              </div>
+            </article>
+
+            <article class="panel side-panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Maker Checker</p>
+                  <h3>Pending Approvals</h3>
+                </div>
+                <span class="panel-chip warning" id="approval-pill">6 Waiting</span>
+              </div>
+              <div class="approval-list" id="approval-list"></div>
+            </article>
+          </section>
+        </section>
+
+        <section class="view" id="view-transactions">
+          <article class="panel full-panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Transactions</p>
+                <h3>Filtered Ledger Activity</h3>
+              </div>
+              <span class="panel-chip" id="transaction-scope-label">All Products</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Reference</th>
+                    <th>Product</th>
+                    <th>Account</th>
+                    <th>Counterparty</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Window</th>
+                  </tr>
+                </thead>
+                <tbody id="transaction-view-table"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section class="view" id="view-approvals">
+          <div class="split-grid">
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Queue</p>
+                  <h3>Approval Requests</h3>
+                </div>
+                <span class="panel-chip warning">Live Queue</span>
+              </div>
+              <div class="approval-list dense" id="approval-queue"></div>
+            </article>
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Policy</p>
+                  <h3>Approval Metrics</h3>
+                </div>
+              </div>
+              <div class="stats-list" id="approval-stats"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-clients">
+          <article class="panel full-panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Client Ledger</p>
+                <h3>Onboarded Clients and Product Performance</h3>
+              </div>
+            </div>
+            <div class="cards-grid" id="client-cards"></div>
+          </article>
+        </section>
+
+        <section class="view" id="view-operators">
+          <article class="panel full-panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Access Control</p>
+                <h3>Operators</h3>
+              </div>
+            </div>
+            <div class="cards-grid" id="operator-cards"></div>
+          </article>
+        </section>
+
+        <section class="view" id="view-roles">
+          <article class="panel full-panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Access Model</p>
+                <h3>Roles and Permissions</h3>
+              </div>
+            </div>
+            <div class="cards-grid role-grid" id="role-cards"></div>
+          </article>
+        </section>
+
+        <section class="view" id="view-reversals">
+          <article class="panel full-panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Recovery Desk</p>
+                <h3>Recent Reversals and Exceptions</h3>
+              </div>
+            </div>
+            <div class="cards-grid" id="reversal-cards"></div>
+          </article>
+        </section>
+
+        <section class="view" id="view-health">
+          <div class="split-grid">
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Service Health</p>
+                  <h3>Platform Services</h3>
+                </div>
+              </div>
+              <ul class="health-list" id="health-service-list"></ul>
+            </article>
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Queues</p>
+                  <h3>Operational Pressure</h3>
+                </div>
+              </div>
+              <div class="stats-list" id="health-stats"></div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <aside class="detail-drawer hidden" id="detail-drawer">
+      <div class="drawer-header">
+        <div>
+          <p class="eyebrow">Transaction Detail</p>
+          <h3 id="drawer-title">Reference</h3>
+        </div>
+        <button class="ghost-btn small" id="close-drawer">Close</button>
+      </div>
+      <div class="drawer-content" id="drawer-content"></div>
+    </aside>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
