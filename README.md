@@ -1,10 +1,8 @@
 # SmartCore Banking
 
-SmartCore Banking is an open-source modular banking platform core. This public distribution contains service source code for wallet-ledger operations, profiling, session management, API gateway, service discovery, and shared utility components.
+SmartCore Banking is a modular open-source banking core for wallet, ledger, session, profiling, gateway, discovery, and shared utility workflows.
 
-## Overview
-
-This repository is intended for review, learning, contribution, and community-driven improvement of the SmartCore Banking core services.
+This repository is the SmartCore Community Edition. It is intended for learning, review, contribution, and community-led improvement. It includes public-safe service source code and a lightweight demo admin portal, but it does not include live deployment material, credentials, customer-specific data, or commercial delivery assets.
 
 ## Modules
 
@@ -14,47 +12,28 @@ This repository is intended for review, learning, contribution, and community-dr
 - `com-smart-core-centralized-wallet-api-profiling` - profiling and backoffice domain service
 - `com-smart-core-centralized-wallet-api-sessionmanager` - session and authentication service
 - `com-smart-core-centralized-wallet-api-utility` - shared utility service
+- `smart-core-admin-portal` - static Community Edition demo portal
 
-## Requirements
+## Quick Start
 
-- Java 21 or compatible project runtime
-- Maven
-- A local database and service configuration supplied by your own environment
+Start with the local development guide:
 
-## Configuration
-
-This public repository does not include live environment configuration. Use environment variables or local configuration files that are not committed to source control.
-
-Do not commit secrets, tokens, passwords, private keys, customer data, internal hosts, or deployment credentials.
-
-## Running Locally
-
-Review each module's Maven configuration and provide your own local environment settings before running services. Live deployment material and private operational playbooks are intentionally not included in this public distribution.
-
-## Included
-
-- Core service source code
-- Public-safe project structure
-- Public contribution and security policies
-
-## Not Included
-
-- Production credentials
-- Deployment secrets
-- Customer-specific material
-- Commercial strategy documents
-- Private support playbooks
-- Enterprise delivery material
-- Unsanitized admin portal assets
-
-## Contributing
-
-See `CONTRIBUTING.md`.
+- [Local Development](docs/local-development.md)
+- [Configuration](docs/configuration.md)
+- [Community Edition Scope](docs/community-edition-scope.md)
 
 ## Security
 
-See `SECURITY.md` for vulnerability reporting guidance.
+Do not commit secrets, tokens, passwords, private keys, customer data, internal hosts, or deployment credentials. See [SECURITY.md](SECURITY.md) for vulnerability reporting guidance.
+
+## Commercial and Private Editions
+
+Some enterprise delivery material, deployment playbooks, private integrations, customer onboarding assets, and commercial support workflows are intentionally outside this public repository.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-Licensed under the Apache License, Version 2.0. See `LICENSE`.
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE).
