@@ -83,4 +83,4 @@ Some deployment playbooks, customer onboarding assets, support workflows, privat
 
 ## License
 
-Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE).
+Apache 2.0 intended / pending third-party dependency legal review. See [LICENSE](LICENSE) and [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).

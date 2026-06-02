@@ -1,0 +1,13 @@
+SmartCore Banking Community Edition
+
+Apache 2.0 intended, pending third-party dependency legal review.
+
+Copyright (c) SmartCore Contributors.
+
+This product includes software developed by SmartCore Contributors and may
+include third-party open-source dependencies resolved through the project build.
+Third-party dependency license information is tracked in THIRD_PARTY_LICENSES.md.
+
+This NOTICE file is prepared for release-readiness review and should be reviewed
+with the LICENSE file and THIRD_PARTY_LICENSES.md before any major public or
+commercial announcement.
